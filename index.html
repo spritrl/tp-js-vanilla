@@ -6,9 +6,37 @@
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="css/style.css">
   <script type="text/javascript" src="./src/courseData.json"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyA4hypu-Bbzm07siiM0J68Cb5qFr_jsOUk",
+      authDomain: "tp-vanilla.firebaseapp.com",
+      projectId: "tp-vanilla",
+      storageBucket: "tp-vanilla.appspot.com",
+      messagingSenderId: "97585784853",
+      appId: "1:97585784853:web:7c3aa6c74455b6c05d861c",
+      measurementId: "G-TPP20ZRJT9"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
 </head>
 
 <body>
+  <a>Fetch Online Data ?</a>
+  <input type="checkbox" id="onlineData" checked>
   <div id="root">
 
   </div>

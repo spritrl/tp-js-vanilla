@@ -1,5 +1,36 @@
 let dataFromJson;
 let rootElement = document.getElementById('root');
+let onlineData = document.getElementById('onlineData');
+
+const config = {
+  apiKey: "AIzaSyA4hypu-Bbzm07siiM0J68Cb5qFr_jsOUk",
+  authDomain: "tp-vanilla.firebaseapp.com",
+  projectId: "tp-vanilla",
+  storageBucket: "tp-vanilla.appspot.com",
+  messagingSenderId: "97585784853",
+  appId: "1:97585784853:web:7c3aa6c74455b6c05d861c",
+  measurementId: "G-TPP20ZRJT9"
+};
+firebase.initializeApp(config);
+const db = firebase.firestore();
+
+onlineData.addEventListener('change', function () {
+  if (this.checked) {
+    getCards();
+  } else {
+    console.log("Checkbox is not checked..");
+  }
+});
+
+const getCards = async () => {
+  db.collection('card').get()
+    .then(querySnapshot => {
+      const documents = querySnapshot.docs.map(doc => doc.data())
+      documents.forEach((element) => {
+        createCard(document.getElementsByClassName('cardList'), element.title, element.text)
+      });
+    })
+}
 
 const readTextFile = (file, callback) => {
   let rawFile = new XMLHttpRequest();
