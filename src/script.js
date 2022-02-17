@@ -1,6 +1,7 @@
 let dataFromJson;
 let rootElement = document.getElementById('root');
 let onlineData = document.getElementById('onlineData');
+let actualLastCardId = 0;
 
 const config = {
   apiKey: "AIzaSyA4hypu-Bbzm07siiM0J68Cb5qFr_jsOUk",
@@ -19,18 +20,29 @@ const getCards = async () => {
     .then(querySnapshot => {
       const documents = querySnapshot.docs.map(doc => doc.data())
       documents.forEach((element) => {
-        createCard(document.getElementsByClassName('cardList'), element.title, element.text)
+        console.log(documents);
+        if (!document.getElementById(element.id)) {
+          createCard(document.getElementsByClassName('cardList'), element.title, element.text, element.id)
+          actualLastCardId++;
+        }
       });
     })
 }
 
-const createCardOnline = async (title, text) => {
+const createCardOnline = async () => {
+  getCards();
+  let title = document.getElementById('newCardTitle').value;
+  let text = document.getElementById('newCardText').value;
+  console.log(title);
+  console.log(text);
   db.collection('card').add({
+    id: actualLastCardId,
     title: title,
     text: text
   })
-  createCard(document.getElementsByClassName('cardList'), title, text)
+  createCard(document.getElementsByClassName('cardList'), title, text, actualLastCardId)
   document.getElementsByClassName('inputCard')[0].remove();
+  actualLastCardId++;
 }
 
 const readTextFile = (file, callback) => {
@@ -86,8 +98,9 @@ document.getElementsByClassName('addCard')[0].innerText = '+';
 
 readTextFile("./src/courseData.json", (text) => {
   dataFromJson = JSON.parse(text);
-  dataFromJson.forEach((element) => {
-    createCard(document.getElementsByClassName('cardList'), element.name, element.description)
+  dataFromJson.forEach((element, i) => {
+    createCard(document.getElementsByClassName('cardList'), element.name, element.description, i)
+    actualLastCardId++;
   });
 });
 
@@ -111,9 +124,10 @@ addCardButton.addEventListener("click", () => {
   createInputCard();
 });
 
-const createCard = (parent, title, text) => {
+const createCard = (parent, title, text, id) => {
   let card = document.createElement('div');
   card.classList.add('cardContent');
+  card.id = id;
   parent[0].appendChild(card);
 
   let cardTitle = document.createElement('h2');
@@ -128,6 +142,11 @@ const createCard = (parent, title, text) => {
   button.innerText = 'Get details';
   button.setAttribute("onclick", `openHiddenMenu("${title}", "${text}")`);
   card.appendChild(button);
+
+  let delButton = document.createElement('button');
+  delButton.innerText = 'Delete';
+  delButton.setAttribute("onclick", `deleteCard("id")`);
+  card.appendChild(delButton);
 };
 
 const createInputCard = () => {
@@ -135,16 +154,24 @@ const createInputCard = () => {
   card.classList.add('inputCard');
   document.getElementsByClassName('cardList')[0].appendChild(card);
 
+  let acardTitle = document.createElement('a');
+  acardTitle.innerText = 'Write your title';
+  card.appendChild(acardTitle);
+
   let cardTitle = document.createElement('input');
-  cardTitle.value = 'Write your title';
+  cardTitle.id = 'newCardTitle';
   card.appendChild(cardTitle);
 
+  let acardText = document.createElement('a');
+  acardText.innerText = 'Write your text';
+  card.appendChild(acardText);
+
   let cardText = document.createElement('input');
-  cardText.value = 'Write your text';
+  cardText.id = 'newCardText';
   card.appendChild(cardText);
 
   let button = document.createElement('button');
   button.innerText = 'Submit';
-  button.setAttribute("onclick", `createCardOnline("${cardTitle.value}", "${cardText.value}")`);
+  button.setAttribute("onclick", `createCardOnline()`);
   card.appendChild(button);
 };
