@@ -33,8 +33,6 @@ const createCardOnline = async () => {
   getCards();
   let title = document.getElementById('newCardTitle').value;
   let text = document.getElementById('newCardText').value;
-  console.log(title);
-  console.log(text);
   db.collection('card').add({
     id: actualLastCardId,
     title: title,
@@ -43,6 +41,10 @@ const createCardOnline = async () => {
   createCard(document.getElementsByClassName('cardList'), title, text, actualLastCardId)
   document.getElementsByClassName('inputCard')[0].remove();
   actualLastCardId++;
+}
+
+const deleteCard = (id) => {
+  document.getElementById(id).remove();
 }
 
 const readTextFile = (file, callback) => {
@@ -145,7 +147,7 @@ const createCard = (parent, title, text, id) => {
 
   let delButton = document.createElement('button');
   delButton.innerText = 'Delete';
-  delButton.setAttribute("onclick", `deleteCard("id")`);
+  delButton.setAttribute("onclick", `deleteCard(${id})`);
   card.appendChild(delButton);
 };
 
