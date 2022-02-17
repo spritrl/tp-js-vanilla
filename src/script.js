@@ -47,6 +47,10 @@ const deleteCard = (id) => {
   document.getElementById(id).remove();
 }
 
+const closeOnlineCardEditor = () => {
+  document.getElementsByClassName('inputCard')[0].remove();
+}
+
 const readTextFile = (file, callback) => {
   let rawFile = new XMLHttpRequest();
   rawFile.overrideMimeType("application/json");
@@ -176,4 +180,9 @@ const createInputCard = () => {
   button.innerText = 'Submit';
   button.setAttribute("onclick", `createCardOnline()`);
   card.appendChild(button);
+
+  let closeButton = document.createElement('button');
+  closeButton.innerText = 'Close';
+  closeButton.setAttribute("onclick", `closeOnlineCardEditor()`);
+  card.appendChild(closeButton);
 };
