@@ -49,6 +49,29 @@ body {
   margin-top: 20px;
 }
 
+.inputCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 200px;
+  width: 200px;
+  border: solid black 1px;
+  padding: 0px 10px 10px 10px;
+  margin-right: 20px;
+}
+
+.inputCard > input {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.inputCard > button {
+  width: 90px;
+  margin-top: 20px;
+}
+
 .hidden {
   display: flex;
   flex-direction: column;
@@ -64,4 +87,9 @@ body {
 .hidden > button {
   margin-top: 10px;
   display: flex;
+}
+
+.addCard {
+  width: 30px;
+  height: 30px;
 }

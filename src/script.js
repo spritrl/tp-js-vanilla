@@ -14,14 +14,6 @@ const config = {
 firebase.initializeApp(config);
 const db = firebase.firestore();
 
-onlineData.addEventListener('change', function () {
-  if (this.checked) {
-    getCards();
-  } else {
-    console.log("Checkbox is not checked..");
-  }
-});
-
 const getCards = async () => {
   db.collection('card').get()
     .then(querySnapshot => {
@@ -30,6 +22,15 @@ const getCards = async () => {
         createCard(document.getElementsByClassName('cardList'), element.title, element.text)
       });
     })
+}
+
+const createCardOnline = async (title, text) => {
+  db.collection('card').add({
+    title: title,
+    text: text
+  })
+  createCard(document.getElementsByClassName('cardList'), title, text)
+  document.getElementsByClassName('inputCard')[0].remove();
 }
 
 const readTextFile = (file, callback) => {
@@ -68,6 +69,7 @@ createAnElement('div',
 createAnElement('div',
   'content',
   [createAnElement('h1'),
+  createAnElement('button', 'addCard'),
   createAnElement('div', 'cardList')
   ]);
 
@@ -80,6 +82,7 @@ createAnElement('div',
 
 document.getElementsByTagName('img')[0].src = 'src/logo_ynov.png';
 document.getElementsByTagName('h1')[0].innerText = 'Ynov web courses';
+document.getElementsByClassName('addCard')[0].innerText = '+';
 
 readTextFile("./src/courseData.json", (text) => {
   dataFromJson = JSON.parse(text);
@@ -103,6 +106,11 @@ const openHiddenMenu = (title, text) => {
   buttonH[0].innerText = 'close';
 }
 
+addCardButton = document.getElementsByClassName('addCard')[0];
+addCardButton.addEventListener("click", () => {
+  createInputCard();
+});
+
 const createCard = (parent, title, text) => {
   let card = document.createElement('div');
   card.classList.add('cardContent');
@@ -119,5 +127,24 @@ const createCard = (parent, title, text) => {
   let button = document.createElement('button');
   button.innerText = 'Get details';
   button.setAttribute("onclick", `openHiddenMenu("${title}", "${text}")`);
+  card.appendChild(button);
+};
+
+const createInputCard = () => {
+  let card = document.createElement('div');
+  card.classList.add('inputCard');
+  document.getElementsByClassName('cardList')[0].appendChild(card);
+
+  let cardTitle = document.createElement('input');
+  cardTitle.value = 'Write your title';
+  card.appendChild(cardTitle);
+
+  let cardText = document.createElement('input');
+  cardText.value = 'Write your text';
+  card.appendChild(cardText);
+
+  let button = document.createElement('button');
+  button.innerText = 'Submit';
+  button.setAttribute("onclick", `createCardOnline("${cardTitle.value}", "${cardText.value}")`);
   card.appendChild(button);
 };
