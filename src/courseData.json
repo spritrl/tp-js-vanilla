@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Create an SPA in Vanilla JS",
+    "description": "Create an application with only javascript and one poor html tag has never been so fun"
+  },
+  {
+    "name": "Learn React",
+    "description": "Spoiler alert, but everything that you're doing at the moment is very boring and React is way better"
+  },
+  {
+    "name": "Learn Angular",
+    "description": "I'm so sorry for you. You have to go through it as well so you can really understand how React is simpler. Less guided, but simpler."
+  }
+]
